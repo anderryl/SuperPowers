@@ -28,7 +28,29 @@ public enum Power {
 	FIRE(1, 1, Material.BLAZE_POWDER, 2, ICE_2, PYRO, FIRE_2),
 	//buffs
 		//strength
-	STRENGTH_5(5, 5, Material.DIAMOND_SWORD, 3, null, null, null)
+	STRENGTH_5(5, 5, Material.DIAMOND_SWORD, 3, null, null, null),
+	STRENGTH_4(4, 4, Material.DIAMOND_SWORD, 3, STRENGTH_5, null, null),
+	STRENGTH_3(3, 3, Material.DIAMOND_SWORD, 3, STRENGTH_4, null, null),
+	STRENGTH_2(2, 2, Material.DIAMOND_SWORD, 3, STRENGTH_3),
+	STRENGTH(1, 1, Material.DIAMOND_SWORD, 3, STRENGTH_2),
+		//speed
+	SPEED_5(5, 5, Material.NETHER_STAR, 4),
+	SPEED_4(4, 4, Material.NETHER_STAR, 4, SPEED_5),
+	SPEED_3(3, 3, Material.NETHER_STAR, 4, SPEED_4),
+	SPEED_2(2, 2, Material.NETHER_STAR, 4, SPEED_3),
+	SPEED(1, 1, Material.NETHER_STAR, 4, SPEED_2),
+		//jump
+	JUMP_5(5, 5, Material.RABBIT_FOOT, 5),
+	JUMP_4(4, 4, Material.RABBIT_FOOT, 5, JUMP_5),
+	JUMP_3(3, 3, Material.RABBIT_FOOT, 5, JUMP_4),
+	JUMP_2(2, 2, Material.RABBIT_FOOT, 5, JUMP_3),
+	JUMP(1, 1, Material.RABBIT_FOOT, 5, JUMP_2),
+		//health
+	HEALTH_5(5, 5, Material.MUSHROOM_SOUP, 6),
+	HEALTH_4(4, 4, Material.MUSHROOM_SOUP, 6, HEALTH_5),
+	HEALTH_3(3, 3, Material.MUSHROOM_SOUP, 6, HEALTH_4),
+	HEALTH_2(2, 2, Material.MUSHROOM_SOUP, 6, HEALTH_3),
+	HEALTH(1, 1, Material.MUSHROOM_SOUP, 6, HEALTH_2)
 	;
 	private int teir;
 	private int level;
@@ -50,6 +72,35 @@ public enum Power {
 			upgrades.add(upgrade3);
 		}
 	}
+	private Power(int power, int teirId, Material mat, int pathId, Power upgrade1, Power upgrade2) {
+		level = power;
+		teir = teirId;
+		id = mat;
+		path = pathId;
+		if (upgrade1 != null) {
+			upgrades.add(upgrade1);
+		}
+		if (upgrade2 != null) {
+			upgrades.add(upgrade2);
+		}
+	}
+	
+	private Power(int power, int teirId, Material mat, int pathId, Power upgrade1) {
+		level = power;
+		teir = teirId;
+		id = mat;
+		path = pathId;
+		if (upgrade1 != null) {
+			upgrades.add(upgrade1);
+		}
+	}
+	private Power(int power, int teirId, Material mat, int pathId) {
+		level = power;
+		teir = teirId;
+		id = mat;
+		path = pathId;
+	}
+	
 	
 	public int getTeir() {
 		return teir;
