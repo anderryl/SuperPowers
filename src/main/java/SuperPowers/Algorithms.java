@@ -26,20 +26,27 @@ public class Algorithms {
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000, 1, false, false));
 	}
 	
-	public void teleportation(Player player) {
-		BlockIterator bi = new BlockIterator(player, 30);
-		Block b1;
-		Block b2;
-		b2 = bi.next();
-		b1 = bi.next();
-		while (bi.hasNext()) {
-			b2 = b1;
-			b1 = bi.next();
+	public void teleportation(Player player, int level) {		
+		Double cx = Math.cos(player.getLocation().getYaw());
+		Double cy = Math.sin(player.getLocation().getPitch());
+		Double cz = Math.sin(player.getLocation().getYaw());
+		Block b1 = null;
+		Block b2 = null;
+		for (int t = 0; t < level * 30; t +=0.25) {
+			Location loc = player.getLocation().clone().add(cx*t, cy*t, cz*t);
+			if (b2.equals(loc.getBlock())) {
+				b1 = b2;
+			}
+			b2 = loc.getBlock();
+			if (b2.getType() != Material.AIR) {
+				break;
+			}
 		}
-		int x = b1.getFace(b2).getModX() + b1.getX();
-		int y = b1.getFace(b2).getModY() + b1.getZ();
-		int z = b1.getFace(b2).getModZ() + b1.getZ();
-		player.teleport(new Location(player.getWorld(), x, y, z), TeleportCause.PLUGIN);
+		int x = b2.getFace(b1).getModX() + b2.getX();
+		int y = b2.getFace(b1).getModY() + b2.getZ();
+		int z = b2.getFace(b1).getModZ() + b2.getZ();
+		player.teleport(new Location(player.getWorld()
+				, x, y, z), TeleportCause.PLUGIN);
 	}
 	
 	public void flight(Player player) {
@@ -109,8 +116,24 @@ public class Algorithms {
 		};
 	}
 	
-	public void materialization(Player player, Block block, int level) {
-		materials.get(player).put(block.getLocation(), 1);
+	public void materialization(Player player) {
+		Double cx = Math.cos(player.getLocation().getYaw());
+		Double cy = Math.sin(player.getLocation().getPitch());
+		Double cz = Math.sin(player.getLocation().getYaw());
+		Block b1 = null;
+		Block b2 = null;
+		for (int t = 0; t < 8; t +=0.25) {
+			Location loc = player.getLocation().clone().add(cx*t, cy*t, cz*t);
+			if (b2.equals(loc.getBlock())) {
+				b1 = b2;
+			}
+			b2 = loc.getBlock();
+			if (b2.getType() != Material.AIR) {
+				break;
+			}
+		}
+		materials.get(player).put(b1.getLocation(), 1);
+		b1.setType(Material.STONE);
 		for (Location loc : materials.get(player).keySet()) {
 			materials.get(player).put(loc, materials.get(player).get(loc) + 1);
 			if (materials.get(player).get(loc) > 100 && loc.getBlock().getType() == Material.STONE) {
