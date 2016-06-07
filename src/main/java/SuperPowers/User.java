@@ -2,12 +2,13 @@ package SuperPowers;
 
 import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class User {
 	Set<Power> powerSet;
 	Player player;
-	public User(Player player, Set<Power> powers) {
+	public User(Player user, Set<Power> powers) {
 		if (powers.isEmpty()) {
 			powerSet.add(Power.BLANK_DEFENSIVE);
 			powerSet.add(Power.BLANK_OFFENSIVE);
@@ -16,5 +17,33 @@ public class User {
 			powerSet.add(Power.SPEED);
 			powerSet.add(Power.HEALTH);
 		}
+		else {
+			powerSet = powers;
+		}
+		player = user;
 	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	public Set<Power> getPowers() {
+		return powerSet;
+	}
+	public Boolean hasPower(Power power) {
+		if (powerSet.contains(power)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public Boolean hasPowerType(Power match) {
+		for (Power power : powerSet) {
+			if (power.getId() == match.getId()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
