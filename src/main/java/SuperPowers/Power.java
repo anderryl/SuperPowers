@@ -19,6 +19,7 @@ public enum Power {
 	TELEPORTATION(1, 2, Material.COMPASS, 1, TELEPORTATION_2, FORCEFEILD),
 	BURROW(1, 1, Material.STONE_SPADE, 1, TELEPORTATION),
 	MATERIALIZATION(1, 1, Material.STONE, 1, TELEPORTATION),
+	BLANK_DEFENSIVE(1, 0, Material.AIR, 1, BURROW, MATERIALIZATION),
 	//offensive  path
 	VELOCITY_MANIPULATION_2(1, 5, Material.SAND, 2),
 	FLIGHT_2(1, 5, Material.ELYTRA, 2),
@@ -32,6 +33,7 @@ public enum Power {
 	FIRE_2(2, 2, Material.BLAZE_POWDER, 2, LIGHTNING, FIRE_3),
 	ICE(1, 1, Material.ICE, 2, ICE_2, PYRO),
 	FIRE(1, 1, Material.BLAZE_POWDER, 2,PYRO, FIRE_2),
+	BLANK_OFFENSIVE(1, 0, Material.AIR, 2, FIRE, ICE),
 	//buffs
 		//strength
 	STRENGTH_5(5, 5, Material.DIAMOND_SWORD, 3),
