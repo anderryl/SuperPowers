@@ -34,7 +34,7 @@ public class Algorithms {
 		Block b2 = null;
 		for (int t = 0; t < level * 30; t +=0.25) {
 			Location loc = player.getLocation().clone().add(cx*t, cy*t, cz*t);
-			if (b2.equals(loc.getBlock())) {
+			if (!b2.equals(loc.getBlock())) {
 				b1 = b2;
 			}
 			b2 = loc.getBlock();
@@ -124,7 +124,7 @@ public class Algorithms {
 		Block b2 = null;
 		for (int t = 0; t < 8; t +=0.25) {
 			Location loc = player.getLocation().clone().add(cx*t, cy*t, cz*t);
-			if (b2.equals(loc.getBlock())) {
+			if (!b2.equals(loc.getBlock())) {
 				b1 = b2;
 			}
 			b2 = loc.getBlock();

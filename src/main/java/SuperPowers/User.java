@@ -37,6 +37,14 @@ public class User {
 			return false;
 		}
 	}
+	public Power getPower(Power type){
+		for (Power power : powerSet) {
+			if (power.getId() == type.getId()) {
+				return power;
+			}
+		}
+		return null;
+	}
 	public Boolean hasPowerType(Power match) {
 		for (Power power : powerSet) {
 			if (power.getId() == match.getId()) {
@@ -44,6 +52,14 @@ public class User {
 			}
 		}
 		return false;
+	}
+	public void addPower(Power power) {
+		for (Power c : powerSet) {
+			if (c.getPathId() == power.getPathId()) {
+				powerSet.remove(c);
+			}
+		}
+		powerSet.add(power);
 	}
 	
 }
