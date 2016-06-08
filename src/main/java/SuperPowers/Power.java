@@ -117,7 +117,6 @@ public enum Power {
 	public int getLevel() {
 		return level;
 	}
-
 	public Material getId() {
 		return id;
 	}
@@ -128,7 +127,7 @@ public enum Power {
 		return upgrades;
 	}
 	public ItemStack getThumbnail() {
-		ItemStack item = new ItemStack(id);
+		ItemStack item = new ItemStack(id, teir * 5);
 		ItemMeta meta = item.getItemMeta();
 		List<String> lore = null;
 		switch (id) {
@@ -217,6 +216,110 @@ public enum Power {
 		meta.setLore(lore);
 		item.setItemMeta(meta);	
 		return item;
+	}
+	static Power getPower(int type, int level) {
+		switch (Material.getMaterial(type)) {
+			case COMPASS:
+				switch (level) {
+				case 1:
+					return TELEPORTATION;
+				case 2:
+					return TELEPORTATION_2;
+				case 3:
+					return TELEPORTATION_3;
+				case 4:
+					return TELEPORTATION_4;
+				}
+			case GLASS:
+				return INVISIBILITY;
+			case END_CRYSTAL:
+				return FORCEFEILD;
+			case ENDER_PEARL:
+				return DRAIN;
+			case STONE_SPADE:
+				return BURROW;
+			case STONE:
+				return MATERIALIZATION;
+			case ICE:
+				switch (level) {
+				case 1:
+					return ICE;
+				case 2:
+					return ICE_2;
+				case 3:
+					return ICE_3;
+				}
+			case BLAZE_POWDER:
+				switch (level) {
+				case 1:
+					return FIRE;
+				case 2:
+					return FIRE_2;
+				case 3:
+					return FIRE_3;
+				}
+			case FLINT_AND_STEEL:
+				return PYRO;
+			case BLAZE_ROD:
+				return LIGHTNING;
+			case SAND:
+				return VELOCITY_MANIPULATION;
+			case ELYTRA:
+				return FLIGHT;
+			case RABBIT_FOOT:
+				switch (level) {
+				case 1 :
+					return JUMP;
+				case 2:
+					return JUMP_2;
+				case 3:
+					return JUMP_3;
+				case 4:
+					return JUMP_4;
+				case 5:
+					return JUMP_5;
+				}
+			case DIAMOND_SWORD:
+				switch (level) {
+				case 1 :
+					return STRENGTH;
+				case 2:
+					return STRENGTH_2;
+				case 3:
+					return STRENGTH_3;
+				case 4:
+					return STRENGTH_4;
+				case 5:
+					return STRENGTH_5;
+				}
+			case NETHER_STAR:
+				switch (level) {
+				case 1 :
+					return SPEED;
+				case 2:
+					return SPEED_2;
+				case 3:
+					return SPEED_3;
+				case 4:
+					return SPEED_4;
+				case 5:
+					return SPEED_5;
+				}
+			case APPLE:
+				switch (level) {
+				case 1 :
+					return HEALTH;
+				case 2:
+					return HEALTH_2;
+				case 3:
+					return HEALTH_3;
+				case 4:
+					return HEALTH_4;
+				case 5:
+					return HEALTH_5;
+				}
+		}
+		return null;
 	}
 
 }

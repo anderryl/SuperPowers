@@ -4,10 +4,12 @@ import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 public class User {
 	Set<Power> powerSet;
 	Player player;
+	Inventory upgradeInv = null;
 	public User(Player user, Set<Power> powers) {
 		if (powers.isEmpty()) {
 			powerSet.add(Power.BLANK_DEFENSIVE);
@@ -60,6 +62,12 @@ public class User {
 			}
 		}
 		powerSet.add(power);
+	}
+	public void setUpgradeInventory(Inventory inv) {
+		upgradeInv = inv;
+	}
+	public Inventory getUpgradeInventory() {
+		return upgradeInv;
 	}
 	
 }

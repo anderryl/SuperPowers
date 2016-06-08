@@ -115,7 +115,13 @@ public class Algorithms {
 			}	
 		};
 	}
-	
+	public void velocity(Player player, int level) {
+		Vector v = player.getVelocity();
+		Double speed = Math.sqrt((v.getX() * v.getX()) + (v.getY() * v.getY()) + (v.getZ() * v.getX())) / (3 - level);
+		player.setVelocity(new Vector(Math.cos(player.getLocation().getYaw()) * speed, 
+				Math.sin(player.getLocation().getYaw()) * speed, 
+				Math.sin(player.getLocation().getPitch()) * 6));
+	}
 	public void materialization(Player player) {
 		Double cx = Math.cos(player.getLocation().getYaw());
 		Double cy = Math.sin(player.getLocation().getPitch());
