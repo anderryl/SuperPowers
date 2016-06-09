@@ -15,7 +15,7 @@ import org.bukkit.util.Vector;
 
 public class Algorithms {
 	
-	ConcurrentHashMap<Player, HashMap<Location, Material>> forcefeilds = new ConcurrentHashMap<Player, HashMap<Location, Material>>();
+	public ConcurrentHashMap<Player, HashMap<Location, Material>> forcefeilds = new ConcurrentHashMap<Player, HashMap<Location, Material>>();
 	ConcurrentHashMap<Player, HashMap<Location, Integer>> materials = new ConcurrentHashMap<Player, HashMap<Location, Integer>>();
 	
 	public void invisibility(Player player) {
@@ -60,9 +60,9 @@ public class Algorithms {
 		HashMap<Location, Material> map = new HashMap<Location, Material>();
 		for (int pitch = 0; pitch < 361; pitch+=10) {
 			for (int yaw = 0; yaw < 361; yaw+= 10) {
-				int x = (int) Math.round(Math.cos(yaw) * 5 + player.getLocation().getX());
-				int y = (int) Math.round(Math.sin(pitch)* 5 + player.getLocation().getY());
-				int z = (int) Math.round(Math.sin(yaw)* 5 + player.getLocation().getZ());
+				int x = (int) Math.round(Math.cos(yaw) * 2 + player.getLocation().getX());
+				int y = (int) Math.round(Math.sin(pitch)* 2 + player.getLocation().getY());
+				int z = (int) Math.round(Math.sin(yaw)* 2 + player.getLocation().getZ());
 				Location loc = new Location(player.getWorld(), x, y, z);
 				map.put(loc, loc.getBlock().getType());
 				loc.getBlock().setType(Material.GLASS);
@@ -73,7 +73,7 @@ public class Algorithms {
 	
 	public void forcefeild(Player player) {
 		forcefeildReset(forcefeilds.get(player));
-		forcefeildCreate(player);
+		forcefeilds.put(player, forcefeildCreate(player));
 	}
 	
 	public void forcefeildReset(HashMap<Location, Material> map) {
@@ -147,5 +147,41 @@ public class Algorithms {
 				materials.get(player).remove(loc);
 			}
 		}
+	}
+	public Runnable burrow(Player player) {
+		Double cx = Math.cos(player.getLocation().getYaw());
+		Double cy = Math.sin(player.getLocation().getPitch());
+		Double cz = Math.sin(player.getLocation().getYaw());
+		Block b2 = null;
+		int c = 0;
+		HashMap<Location, Material> map = new HashMap<Location, Material>();
+		for (int t = 0; t < 4; t +=0.25) {
+			Location loc = player.getLocation().clone().add(cx*t, cy*t, cz*t);
+			b2 = loc.getBlock();
+			if (b2.getType() != Material.AIR) {
+				c ++;
+			}
+			if (c > 1) {
+				break;
+			}
+		}
+		for (int pitch = 0; pitch < 361; pitch+=10) {
+			for (int yaw = 0; yaw < 361; yaw+= 10) {
+				int x = (int) Math.round(Math.cos(yaw) * 3 + player.getLocation().getX());
+				int y = (int) Math.round(Math.sin(pitch)* 3 + player.getLocation().getY());
+				int z = (int) Math.round(Math.sin(yaw)* 3 + player.getLocation().getZ());
+				Location loc = new Location(player.getWorld(), x, y, z);
+				map.put(loc, loc.getBlock().getType());
+				loc.getBlock().setType(Material.AIR);
+			}
+		}
+		final HashMap<Location, Material> fmap = map;
+		return new Runnable() {
+			public void run() {
+				for (Location loc : fmap.keySet()) {
+					loc.getBlock().setType(fmap.get(loc));
+				}
+			}
+		};
 	}
 }

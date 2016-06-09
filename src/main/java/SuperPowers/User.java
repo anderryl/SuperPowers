@@ -2,7 +2,6 @@ package SuperPowers;
 
 import java.util.Set;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 

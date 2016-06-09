@@ -148,11 +148,27 @@ public class Main extends JavaPlugin implements Listener{
 						(file.getString(String.valueOf(x) + ".player"))), 
 						new User(getServer().getPlayer(UUID.fromString(file.getString
 								(String.valueOf(x) + ".player"))), powers));
+				kills.put(getServer().getPlayer(UUID.fromString(file.getString
+								(String.valueOf(x) + ".player"))), file.getInt(String.valueOf(x) + ".kills"));
 			}
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+			public void run() {
+				for (Player player : getServer().getOnlinePlayers()) {
+					player.setTotalExperience(kills.get(player));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 
+							40, users.get(player).getPower(Power.STRENGTH).getLevel(), true));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 
+							40, users.get(player).getPower(Power.SPEED).getLevel(), true));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 
+							40, users.get(player).getPower(Power.JUMP).getLevel(), true));
+					player.setMaxHealth(20 + (users.get(player).getPower(Power.HEALTH).getLevel() * 6));
+				}
+			}
+		}, 20L, 20L);
 	}
 	
 	public void onDisable() {
@@ -165,6 +181,7 @@ public class Main extends JavaPlugin implements Listener{
 				file.set(String.valueOf(x) + ".powers." + String.valueOf(y) + ".type", power.getId().getId());
 				file.set(String.valueOf(x) + ".powers." + String.valueOf(y) + ".level", power.getLevel());
 			}
+			file.set(String.valueOf(x) + ".kills", kills.get(user.getPlayer()));
 		}
 		try {
 			file.save("SuperPowers/src/main/resources/powers.yml");
@@ -294,6 +311,7 @@ public class Main extends JavaPlugin implements Listener{
 		else {
 			offlineUsers.put(evt.getPlayer(), new User(evt.getPlayer(), null));
 			users.put(evt.getPlayer(), offlineUsers.get(evt.getPlayer()));
+			kills.put(evt.getPlayer(), 0);
 		}
 		for (Power power : users.get(evt.getPlayer()).getPowers()) {
 			if (power.getPathId() < 3) {
